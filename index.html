@@ -114,7 +114,7 @@
     <div class="container">
         <h1>心动表白</h1>
         <div class="message">
-            你愿意和我一起，创造更多美好的回忆吗？
+            每一天，我的心里都装着你。从遇见的那一刻起，我就知道你是我想要珍惜的人。你愿意和我一起，创造更多美好的回忆吗？
         </div>
         
         <div class="buttons">
@@ -178,4 +178,105 @@
             const newY = Math.floor(Math.random() * maxY);
             
             // 应用新位置
-            disagreeB
+            disagreeBtn.style.position = 'absolute';
+            disagreeBtn.style.left = newX + 'px';
+            disagreeBtn.style.top = newY + 'px';
+        }
+        
+        // 同意按钮的点击事件
+        agreeBtn.addEventListener('click', function() {
+            // 隐藏妥协理由
+            compromise.style.display = 'none';
+            
+            // 显示庆祝动画
+            celebration.style.display = 'block';
+            
+            // 创建花朵动画
+            createFlowers();
+            
+            // 修改标题和消息
+            document.querySelector('h1').textContent = '❤️ 谢谢你的同意 ❤️';
+            document.querySelector('.message').textContent = '我会珍惜你的每一天，让我们一起创造美好的未来！';
+            
+            // 隐藏按钮
+            disagreeBtn.style.display = 'none';
+            agreeBtn.textContent = '永远爱你';
+            agreeBtn.style.width = '100%';
+        });
+        
+        // 创建花朵动画
+        function createFlowers() {
+            // 创建多种花朵
+            const flowerTypes = [
+                '🌹', '🌸', '🌺', '🌻', '🌼', '🌷', '💐', '🌱', '🌿', '🍀'
+            ];
+            
+            // 创建飘落的花朵和心形
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const flower = document.createElement('div');
+                    flower.classList.add('heart');
+                    
+                    // 随机选择花朵类型
+                    const flowerType = flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
+                    flower.textContent = flowerType;
+                    flower.style.fontSize = '30px';
+                    
+                    // 随机位置
+                    const startX = Math.random() * window.innerWidth;
+                    flower.style.left = startX + 'px';
+                    flower.style.top = '-50px';
+                    
+                    // 随机大小
+                    const size = 20 + Math.random() * 30;
+                    flower.style.fontSize = `${size}px`;
+                    
+                    // 随机旋转
+                    const rotation = Math.random() * 360;
+                    flower.style.transform = `rotate(${rotation}deg)`;
+                    
+                    celebration.appendChild(flower);
+                    
+                    // 动画：从上到下飘落
+                    let position = -50;
+                    let opacity = 0;
+                    
+                    // 随机速度
+                    const speed = 1 + Math.random() * 3;
+                    
+                    // 随机水平摆动
+                    const swingFactor = 5 * Math.random();
+                    const startPosition = parseFloat(flower.style.left);
+                    let counter = 0;
+                    
+                    const fallingAnimation = setInterval(() => {
+                        position += speed;
+                        counter += 0.05;
+                        
+                        // 水平摆动
+                        const horizontalPosition = startPosition + Math.sin(counter) * (10 * swingFactor);
+                        flower.style.left = horizontalPosition + 'px';
+                        
+                        flower.style.top = position + 'px';
+                        
+                        // 淡入淡出
+                        if (position < 100) {
+                            opacity += 0.05;
+                        } else if (position > window.innerHeight - 100) {
+                            opacity -= 0.02;
+                        }
+                        opacity = Math.max(0, Math.min(1, opacity));
+                        flower.style.opacity = opacity;
+                        
+                        // 超出屏幕，移除元素并清除动画
+                        if (position > window.innerHeight || opacity <= 0) {
+                            clearInterval(fallingAnimation);
+                            flower.remove();
+                        }
+                    }, 20);
+                }, i * 200); // 错开时间，使花朵陆续飘落
+            }
+        }
+    </script>
+</body>
+</html>
