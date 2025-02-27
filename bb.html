@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心动表白</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffebee;
+            margin: 0;
+            overflow: hidden;
+        }
+        
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            position: relative;
+            z-index: 10;
+        }
+        
+        h1 {
+            color: #e91e63;
+            margin-bottom: 30px;
+        }
+        
+        .message {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+        }
+        
+        button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        #agree-btn {
+            background-color: #e91e63;
+            color: white;
+        }
+        
+        #agree-btn:hover {
+            background-color: #c2185b;
+            transform: scale(1.05);
+        }
+        
+        #disagree-btn {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        #disagree-btn:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .compromise {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #fff8e1;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .flower {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            display: none;
+        }
+        
+        .heart {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>心动表白</h1>
+        <div class="message">
+            每一天，我的心里都装着你。从遇见的那一刻起，我就知道你是我想要珍惜的人。你愿意和我一起，创造更多美好的回忆吗？
+        </div>
+        
+        <div class="buttons">
+            <button id="agree-btn">同意</button>
+            <button id="disagree-btn">不同意</button>
+        </div>
+        
+        <div class="compromise" id="compromise">
+            <!-- 妥协理由会在这里动态显示 -->
+        </div>
+    </div>
+    
+    <div class="celebration" id="celebration"></div>
+    
+    <script>
+        const disagreeBtn = document.getElementById('disagree-btn');
+        const agreeBtn = document.getElementById('agree-btn');
+        const compromise = document.getElementById('compromise');
+        const celebration = document.getElementById('celebration');
+        
+        // 妥协理由数组
+        const compromiseReasons = [
+            "如果你同意，我保证每天都会让你开心😊",
+            "不同意的话，我会很伤心的...再考虑一下吧💔",
+            "我已经准备了一束你最喜欢的鲜花，只等你点击同意🌹",
+            "给我一次机会，我会证明我的真心❤️",
+            "你是我见过最特别的人，请不要拒绝我🌟",
+            "我已经想好了100种方式让你幸福，只需你一个同意✨",
+            "不管点多少次不同意，这个窗口都不会消失，直到你同意为止😄",
+            "你再考虑一下嘛，好不好？🥺",
+            "我保证以后都听你的，不同意也没关系，再给我一次机会🙏",
+            "你确定要拒绝这么真诚的心意吗？再想想吧💭"
+        ];
+        
+        let currentReasonIndex = 0;
+        
+        // 不同意按钮的点击事件
+        disagreeBtn.addEventListener('click', function() {
+            // 显示妥协理由
+            compromise.style.display = 'block';
+            compromise.textContent = compromiseReasons[currentReasonIndex];
+            
+            // 移动不同意按钮到随机位置
+            moveButton();
+            
+            // 更新理由索引
+            currentReasonIndex = (currentReasonIndex + 1) % compromiseReasons.length;
+        });
+        
+        // 随机移动不同意按钮
+        function moveButton() {
+            const containerRect = document.querySelector('.container').getBoundingClientRect();
+            const btnRect = disagreeBtn.getBoundingClientRect();
+            
+            // 计算新的位置，确保按钮不会超出容器
+            const maxX = containerRect.width - btnRect.width - 20;
+            const maxY = containerRect.height - btnRect.height - 20;
+            
+            // 随机生成新位置
+            const newX = Math.floor(Math.random() * maxX);
+            const newY = Math.floor(Math.random() * maxY);
+            
+            // 应用新位置
+            disagreeB
